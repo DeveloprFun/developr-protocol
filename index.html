@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Developr — pool behavior on Robinhood Chain</title>
+<meta name="description" content="Developr lets Uniswap pools around Robinhood Chain develop their own habits. Follow live value, gas and the deepest pairs." />
+<meta name="theme-color" content="<!--THEME-->" />
+<meta property="og:title" content="Developr" />
+<meta property="og:description" content="Pool habits around Robinhood Chain, with live figures alongside." />
+<meta property="og:image" content="./cover.jpg" />
+<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+<link rel="icon" type="image/png" sizes="48x48" href="./favicon.png" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="preload" href="./fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!--CA-->
+
+<header class="header">
+  <div class="wrap header-row">
+    <a class="brand" href="#top" aria-label="Developr home">
+      <img class="brand-mark" src="./logo.png" width="32" height="32" alt="" />
+      <span>Developr</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#rack">Rack</a>
+      <a href="#markets">Markets</a>
+      <a href="#paths">Paths</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="socials" aria-label="Social links"><!--SOCIALS--></div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <canvas class="field" id="field" aria-hidden="true"></canvas>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="chip reveal"><span class="dot" id="live-dot" data-state="loading"></span>Watching Robinhood Chain <span class="mono">4663</span></p>
+      <h1 class="reveal" style="--d:60ms">Every pool deserves a personality.</h1>
+      <p class="lede reveal" style="--d:120ms">Developr is a workshop for how Uniswap pools behave. Snap a cube into the rack, read what it does in plain sight, then send your market out into the world.</p>
+
+      <form class="lookup reveal" id="lookup" style="--d:180ms" novalidate>
+        <label class="sr" for="lookup-input">Identifier to inspect</label>
+        <div class="lookup-frame" id="lookup-frame">
+          <div class="lookup-field">
+            <input id="lookup-input" class="lookup-input mono" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-describedby="lookup-msg" />
+            <span class="lookup-ph" id="lookup-ph" aria-hidden="true"><span class="lookup-lead">Drop in your </span><span class="lookup-word" id="lookup-word">token contract</span></span>
+            <kbd class="lookup-key" id="lookup-key" aria-hidden="true">/</kbd>
+          </div>
+          <button class="btn btn-primary" type="submit"><span>Inspect</span><svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="btn-spin" aria-hidden="true"></span></button>
+        </div>
+        <p class="lookup-msg" id="lookup-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="hero-art reveal" style="--d:140ms">
+      <img id="hero-logo" src="./logo.png" width="192" height="192" alt="Developr mark: a faceted magenta letter D" />
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="netcard reveal" style="--d:220ms" aria-label="Network details">
+      <p class="eyebrow">Network</p>
+      <dl class="netlist">
+        <div><dt>Chain ID</dt><dd class="mono">4663</dd></div>
+        <div><dt>Gas currency</dt><dd class="mono">ETH</dd></div>
+        <div class="net-rpc"><dt>RPC endpoint</dt><dd><button class="rpc-copy mono" type="button" id="rpc-copy" data-copy="https://rpc.mainnet.chain.robinhood.com" aria-label="Copy RPC endpoint"><span class="rpc-url">https://rpc.mainnet.chain.robinhood.com</span><span class="rpc-state" id="rpc-state">Copy</span></button></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="wrap stats-section" aria-label="Robinhood Chain statistics" id="stats">
+  <div class="stats">
+    <div class="stat reveal" data-stat="tvl">
+      <p class="stat-label">Value locked</p>
+      <p class="stat-value skeleton" data-state="loading">Loading…</p>
+      <p class="stat-sub">Whole chain · USD · DefiLlama</p>
+      <svg class="spark" id="spark-tvl" viewBox="0 0 120 32" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="stat reveal" data-stat="block" style="--d:60ms">
+      <p class="stat-label">Chain head</p>
+      <p class="stat-value skeleton mono" data-state="loading">Loading…</p>
+      <p class="stat-sub">Latest block · public RPC</p>
+    </div>
+    <div class="stat reveal" data-stat="gas" style="--d:120ms">
+      <p class="stat-label">Gas price</p>
+      <p class="stat-value skeleton mono" data-state="loading">Loading…</p>
+      <p class="stat-sub">Gwei · straight from the RPC</p>
+    </div>
+    <div class="stat reveal" data-stat="volume" style="--d:180ms">
+      <p class="stat-label">Traded in 24h</p>
+      <p class="stat-value skeleton" data-state="loading">Loading…</p>
+      <p class="stat-sub">Indexed pairs · DexScreener</p>
+    </div>
+  </div>
+  <div class="coverage reveal">
+    <p class="eyebrow">Fine print on the numbers</p>
+    <dl>
+      <div><dt>Value locked.</dt><dd>DefiLlama's figure for everything on the network, including pools we never list.</dd></div>
+      <div><dt>Head and gas.</dt><dd>Pulled from an open RPC every few seconds while this tab stays in view.</dd></div>
+      <div><dt>Traded in 24h.</dt><dd>Adds up every pair DexScreener tracks; untracked pairs simply do not count.</dd></div>
+    </dl>
+    <p class="fine">If a feed goes dark, its card says Unavailable. We never paper over holes with estimates.</p>
+  </div>
+</section>
+
+<section class="wrap section" id="rack" aria-labelledby="rack-h">
+  <div class="sec-head reveal"><h2 id="rack-h">One cube in. Five slots. Many pools.</h2><p>Our artwork tells the story: a raw cube enters a rack, each slot reshapes the flow, and finished markets drift out the far side.</p></div>
+  <figure class="banner reveal">
+    <img src="./cover.jpg" width="1500" height="500" loading="lazy" decoding="async" alt="Artwork: a glowing magenta cube feeding a rack with five coloured slots, which links to floating pool islands" />
+  </figure>
+  <div class="slots">
+    <article class="slot reveal" style="--c:var(--block-blue)"><div class="slot-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.4 2.9 8.3 7 10 4.100-1.700 7-5.600 7-10V6l-7-3Z"/></svg></div><h3>Guard</h3><p>Tames the opening stretch once trading begins.</p><span class="tag">Preview</span></article>
+    <article class="slot reveal" style="--c:var(--block-orange);--d:60ms"><div class="slot-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 20V11h3.500v9H5Zm5.500 0V5H14v15h-3.500Zm5.500 0v-6h3.500v6H16Z"/></svg></div><h3>Scale</h3><p>Lets the fee follow the size of the trade.</p><span class="tag">Preview</span></article>
+    <article class="slot reveal" style="--c:var(--block-red);--d:120ms"><div class="slot-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2c.6 3.300 4.500 5.400 4.500 10.100A4.500 4.500 0 0 1 12 16.600a4.500 4.500 0 0 1-4.500-4.500c0-1.800.800-3 1.700-4 .3 1.400 1.100 2 1.900 2.100C10.300 7.600 11 5 12 2Zm0 20a4 4 0 0 1-4-4c2 .8 3.600.4 4-1.500.4 1.900 2 2.300 4 1.500a4 4 0 0 1-4 4Z"/></svg></div><h3>Ember</h3><p>Retires a slice of supply whenever someone buys.</p><span class="tag">Preview</span></article>
+    <article class="slot reveal" style="--c:var(--block-green);--d:180ms"><div class="slot-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.500s6.500 6.800 6.500 11.500a6.500 6.500 0 0 1-13 0C5.500 9.300 12 2.500 12 2.500Z"/></svg></div><h3>Stream</h3><p>Trickles fee income back to whoever supplies liquidity.</p><span class="tag">Preview</span></article>
+    <article class="slot reveal" style="--c:var(--block-gold);--d:240ms"><div class="slot-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 7 4.500 4L12 4l4.500 7L21 7l-2 11H5L3 7Zm2.300 13h13.400v2H5.300v-2Z"/></svg></div><h3>Crown</h3><p>Rewards one lucky buyer, picked by a tally all eyes can audit.</p><span class="tag">Preview</span></article>
+  </div>
+  <p class="fine reveal">Slot names and what they do are read from the artwork's icons. Nothing is final and nothing here is deployable yet.</p>
+</section>
+
+<section class="wrap section" id="markets" aria-labelledby="markets-h">
+  <div class="sec-head reveal"><h2 id="markets-h">Markets</h2><p>The deepest pairs around Robinhood Chain this minute.</p></div>
+  <div class="tabs reveal" role="tablist" aria-label="Market views">
+    <button class="tab" role="tab" id="tab-pools" aria-selected="true" aria-controls="market-panel" data-tab="pools">Pools</button>
+    <button class="tab" role="tab" id="tab-tokens" aria-selected="false" aria-controls="market-panel" data-tab="tokens" tabindex="-1">Tokens</button>
+  </div>
+  <div class="table-wrap reveal" id="market-panel" role="tabpanel" aria-labelledby="tab-pools" aria-busy="true">
+    <table class="table">
+      <thead><tr><th scope="col">Pair</th><th scope="col">Venue</th><th scope="col" class="num">Liquidity</th><th scope="col" class="num">24h move</th><th scope="col" class="num">24h traded</th></tr></thead>
+      <tbody id="market-body"></tbody>
+    </table>
+  </div>
+  <p class="fine">Top eight rows only. Data from DexScreener. Information, not advice.</p>
+</section>
+
+<section class="wrap section" id="paths" aria-labelledby="paths-h">
+  <div class="sec-head reveal"><h2 id="paths-h">Pick your path</h2></div>
+  <div class="cols">
+    <div class="col reveal">
+      <p class="eyebrow">Trade</p>
+      <a class="card" href="#markets"><span class="tag tag-live">Live</span><h3>Browse pools</h3><p>See the deepest markets ranked by liquidity.</p></a>
+      <a class="card" href="#lookup-input" data-focus="lookup-input"><span class="tag tag-live">Live</span><h3>Inspect a contract</h3><p>Drop in any token contract or pool identifier to land on its market page.</p></a>
+    </div>
+    <div class="col reveal" style="--d:80ms">
+      <p class="eyebrow">Make</p>
+      <div class="card is-soon"><span class="tag">Soon</span><h3>Cube designer</h3><p>Choose behaviors for your pool and preview the outcome before signing.</p></div>
+      <div class="card is-soon"><span class="tag">Soon</span><h3>Rack deploy</h3><p>Ship a finished rack in a single signed step.</p></div>
+    </div>
+    <div class="col reveal" style="--d:160ms">
+      <p class="eyebrow">Plug in</p>
+      <div class="card is-soon"><span class="tag">Soon</span><h3>Public feed</h3><p>The same live numbers as a cache-friendly JSON feed.</p></div>
+      <div class="card is-soon"><span class="tag">Soon</span><h3>Agent guide</h3><p>One readable file that tells automated tools how to behave here.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section" id="sources" aria-labelledby="sources-h">
+  <div class="sec-head reveal"><h2 id="sources-h">Where the numbers come from</h2></div>
+  <div class="sources">
+    <div class="source reveal"><span class="tag tag-live">Live</span><h3>DefiLlama</h3><p>Value locked across the chain, with its daily history.</p></div>
+    <div class="source reveal" style="--d:60ms"><span class="tag tag-live">Live</span><h3>Robinhood Chain RPC</h3><p>Block height and gas price, asked straight from the open endpoint.</p></div>
+    <div class="source reveal" style="--d:120ms"><span class="tag tag-live">Live</span><h3>DexScreener</h3><p>Pairs with their liquidity, traded amounts and daily price moves.</p></div>
+  </div>
+</section>
+
+<section class="section love" id="voices" aria-labelledby="voices-h">
+  <div class="wrap sec-head reveal"><h2 id="voices-h">Voices</h2><p>Sample cards only. The crowd has not arrived yet.</p></div>
+  <div class="marquee" aria-label="Sample posts, placeholders">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+</section>
+
+<section class="wrap section" id="who" aria-labelledby="who-h">
+  <div class="sec-head reveal"><h2 id="who-h">Who this is for</h2></div>
+  <div class="audience">
+    <div class="aud reveal"><p class="eyebrow">Traders</p><h3>Read first, trade second</h3><p>Liquidity, flow and price moves sit one click from any pool.</p></div>
+    <div class="aud reveal" style="--d:50ms"><p class="eyebrow">Makers</p><h3>Sculpt your venue</h3><p>Decide how your pool acts before anyone swaps in it.</p></div>
+    <div class="aud reveal" style="--d:100ms"><p class="eyebrow">Researchers</p><h3>Check any address</h3><p>Paste it, land on its market, judge for yourself.</p></div>
+    <div class="aud reveal" style="--d:150ms"><p class="eyebrow">Partners</p><h3>Share the feed</h3><p>An open feed carrying these same figures is on the roadmap.</p></div>
+    <div class="aud reveal" style="--d:200ms"><p class="eyebrow">Agents</p><h3>Plain instructions</h3><p>A readable guide for automated tools is planned.</p></div>
+  </div>
+</section>
+
+<section class="wrap section" id="flow" aria-labelledby="flow-h">
+  <div class="sec-head reveal"><h2 id="flow-h">How it flows</h2></div>
+  <ol class="steps">
+    <li class="reveal"><span class="step-n mono">01</span><div><h3>Watch</h3><p>Follow the chain head, gas and locked value as they move.</p></div></li>
+    <li class="reveal" style="--d:50ms"><span class="step-n mono">02</span><div><h3>Pick</h3><p>Choose which slots your pool should carry.</p></div></li>
+    <li class="reveal" style="--d:100ms"><span class="step-n mono">03</span><div><h3>Preview</h3><p>See the result spelled out before any signature.</p></div></li>
+    <li class="reveal" style="--d:150ms"><span class="step-n mono">04</span><div><h3>Ship</h3><p>Release it, then watch its figures.</p></div></li>
+  </ol>
+</section>
+
+<section class="wrap section faq" id="faq" aria-labelledby="faq-title">
+  <div class="sec-head reveal"><h2 id="faq-title">Asked often</h2></div>
+  <div class="faq-list reveal">
+    <details><summary>What is Developr?</summary><div class="ans"><p>Developr is a workshop where Uniswap pools pick up their own habits. The lone working piece today is the dashboard higher on this page; the rack and its tools are still ahead.</p></div></details>
+    <details><summary>Is anything deployable today?</summary><div class="ans"><p>No. Slots, designer and deploy step are previews. Treat every description as a sketch until a release note says otherwise.</p></div></details>
+    <details><summary>Who supplies the figures?</summary><div class="ans"><p>DefiLlama reports value locked, an open RPC reports head and gas, DexScreener reports pairs. When one fails, its card shows Unavailable.</p></div></details>
+    <details><summary>Does Developr issue its own coin?</summary><div class="ans"><p>Nothing has been announced. The strip pinned above stays dormant until it is. Trust only the complete contract string on the correct network, never ticker symbols.</p></div></details>
+    <details><summary>Which accounts are official?</summary><div class="ans"><p>None are announced yet, so the two icons top-right do nothing. Distrust any account claiming otherwise until they light up.</p></div></details>
+    <details><summary>Is this advice?</summary><div class="ans"><p>No. Numbers are informational and may be late or partial. Read full contract strings twice before sending anything.</p></div></details>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <p>Developr.fun · Robinhood Chain 4663 · Information only</p>
+    <p class="fine">Palette sampled from the supplied brand files; see brand/PROVENANCE.md.</p>
+  </div>
+</footer>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
